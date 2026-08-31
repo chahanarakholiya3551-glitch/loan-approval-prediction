@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Loan Approval Prediction</title>
+
+    <style>
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #dbeafe 0%,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            #e0e7ff 0%,
+            transparent 35%
+        ),
+        #f8fafc;
+
+    color: #0f172a;
+
+    padding: 50px 20px;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+
+    width: 720px;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 40px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.08),
+        0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+h1 {
+
+    text-align: center;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+
+    margin-bottom: 35px;
+
+    letter-spacing: -0.5px;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+    letter-spacing: 0.1px;
+}
+
+
+/* =========================================
+   INPUT + SELECT
+========================================= */
+
+input,
+select {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #0f172a;
+
+    font-size: 14px;
+
+    font-family: inherit;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+input::placeholder {
+
+    color: #94a3b8;
+}
+
+
+/* =========================================
+   HOVER
+========================================= */
+
+input:hover,
+select:hover {
+
+    border-color: #94a3b8;
+}
+
+
+/* =========================================
+   FOCUS
+========================================= */
+
+input:focus,
+select:focus {
+
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+select {
+
+    cursor: pointer;
+
+    appearance: auto;
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button {
+
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================
+   BUTTON HOVER
+========================================= */
+
+button:hover {
+
+    background: #1d4ed8;
+
+    box-shadow:
+        0 6px 15px rgba(37, 99, 235, 0.22);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   BUTTON ACTIVE
+========================================= */
+
+button:active {
+
+    transform: translateY(0);
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   RESULT
+========================================= */
+
+.result {
+
+    margin-top: 28px;
+
+    padding: 18px 20px;
+
+    text-align: center;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    color: #1e3a8a;
+
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+}
+
+
+/* =========================================
+   RESULT HOVER
+========================================= */
+
+.result:hover {
+
+    background: #dbeafe;
+}
+
+
+/* =========================================
+   NUMBER INPUT
+========================================= */
+
+input[type="number"] {
+
+    appearance: textfield;
+}
+
+
+/* =========================================
+   REMOVE NUMBER ARROWS - CHROME
+========================================= */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+
+    opacity: 0.6;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 768px) {
+
+    body {
+
+        padding: 25px 15px;
+    }
+
+    .container {
+
+        padding: 30px 25px;
+
+        border-radius: 14px;
+    }
+
+    h1 {
+
+        font-size: 25px;
+
+        margin-bottom: 28px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    body {
+
+        padding: 15px 10px;
+    }
+
+    .container {
+
+        padding: 25px 18px;
+    }
+
+    h1 {
+
+        font-size: 22px;
+    }
+
+    label {
+
+        font-size: 12px;
+    }
+
+    input,
+    select {
+
+        height: 44px;
+
+        font-size: 13px;
+    }
+
+    button {
+
+        height: 46px;
+
+        font-size: 14px;
+    }
+
+    .result {
+
+        font-size: 15px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <h1>Loan Approval Prediction</h1>
+
+
+    <form action="/predict" method="POST">
+
+
+        <!-- ========================= -->
+        <!-- NUMERICAL FEATURES -->
+        <!-- ========================= -->
+
+
+        <div class="form-group">
+
+            <label>Applicant Income</label>
+
+            <input
+                type="number"
+                name="Applicant_Income"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Coapplicant Income</label>
+
+            <input
+                type="number"
+                name="Coapplicant_Income"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Age</label>
+
+            <input
+                type="number"
+                name="Age"
+                min="18"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Dependents</label>
+
+            <input
+                type="number"
+                name="Dependents"
+                min="0"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Credit Score</label>
+
+            <input
+                type="number"
+                name="Credit_Score"
+                min="0"
+                max="900"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Existing Loans</label>
+
+            <input
+                type="number"
+                name="Existing_Loans"
+                min="0"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>DTI Ratio</label>
+
+            <input
+                type="number"
+                name="DTI_Ratio"
+                min="0"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Savings</label>
+
+            <input
+                type="number"
+                name="Savings"
+                min="0"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Collateral Value</label>
+
+            <input
+                type="number"
+                name="Collateral_Value"
+                min="0"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Loan Amount</label>
+
+            <input
+                type="number"
+                name="Loan_Amount"
+                min="0"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Loan Term</label>
+
+            <input
+                type="number"
+                name="Loan_Term"
+                min="1"
+                step="any"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- CATEGORICAL FEATURES -->
+        <!-- ========================= -->
+
+
+        <div class="form-group">
+
+            <label>Gender</label>
+
+            <select name="Gender" required>
+
+                <option value="Female">Female</option>
+
+                <option value="Male">Male</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Education Level</label>
+
+            <select name="Education_Level" required>
+
+                <option value="Graduate">Graduate</option>
+                <option value="High School">High School</option>
+                <option value="Postgraduate">Postgraduate</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Employment Status</label>
+
+            <select name="Employment_Status" required>
+
+                <option value="Government">Government</option>
+
+                <option value="Salaried">Salaried</option>
+
+                <option value="Self-Employed">Self-Employed</option>
+
+                <option value="Unemployed">Unemployed</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Marital Status</label>
+
+            <select name="Marital_Status" required>
+
+                <option value="Married">Married</option>
+
+                <option value="Single">Single</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Loan Purpose</label>
+
+            <select name="Loan_Purpose" required>
+
+                <option value="Business">Business</option>
+
+                <option value="Education">Education</option>
+
+                <option value="Home">Home</option>
+
+                <option value="Personal">Personal</option>
+
+                <option value="Vehicle">Vehicle</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Property Area</label>
+
+            <select name="Property_Area" required>
+
+                <option value="Rural">Rural</option>
+
+                <option value="Semiurban">Semiurban</option>
+
+                <option value="Urban">Urban</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Employer Category</label>
+
+            <select name="Employer_Category" required>
+
+                <option value="Business">Business</option>
+
+                <option value="Private">Private</option>
+
+                <option value="Public">Public</option>
+
+                <option value="Startup">Startup</option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- PREDICT BUTTON -->
+        <!-- ========================= -->
+
+
+        <button type="submit">
+
+            Predict Loan Approval
+
+        </button>
+
+
+    </form>
+
+
+
+    <!-- ========================= -->
+    <!-- RESULT -->
+    <!-- ========================= -->
+
+
+    {% if prediction_text %}
+
+        <div class="result">
+
+            {{ prediction_text }}
+
+        </div>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>
